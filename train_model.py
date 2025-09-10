@@ -37,11 +37,16 @@ class EngagementModelTrainer:
         print("📊 Loading data from database...")
         
         conn = sqlite3.connect(self.db_path)
-        query = """
-        SELECT engagement_score, emotion, confidence, face_detected, engagement_category
-        FROM engagement_sessions
-        WHERE engagement_score IS NOT NULL AND emotion IS NOT NULL
-        """
+        query = '''
+         SELECT engagement_score, emotion, confidence, face_detected,
+                CASE 
+                    WHEN engagement_score >= 0.7 THEN 'engaged'
+                    WHEN engagement_score <= 0.3 THEN 'not_engaged'
+                    ELSE 'neutral'
+                END as engagement_category
+         FROM engagement_sessions
+         WHERE engagement_score IS NOT NULL AND emotion IS NOT NULL
+         '''
         
         df = pd.read_sql_query(query, conn)
         conn.close()
@@ -57,20 +62,29 @@ class EngagementModelTrainer:
         """Preprocess the data for training"""
         print("🔧 Preprocessing data...")
         
+        # Clean emotion data - handle any non-string values
+        df['emotion'] = df['emotion'].astype(str)
+        
         # Create feature matrix
         features = []
         
         # Numerical features
-        features.append(df['engagement_score'].values)
-        features.append(df['confidence'].values)
-        features.append(df['face_detected'].astype(int).values)
+        features.append(df['engagement_score'].values.reshape(-1, 1))
+        features.append(df['confidence'].values.reshape(-1, 1))
+        features.append(df['face_detected'].astype(int).values.reshape(-1, 1))
         
         # Encode emotion as numerical features
-        emotion_encoded = self.label_encoder.fit_transform(df['emotion'])
-        features.append(emotion_encoded)
+        try:
+            emotion_encoded = self.label_encoder.fit_transform(df['emotion'])
+            features.append(emotion_encoded.reshape(-1, 1))
+        except Exception as e:
+            print(f"⚠️ Warning: Could not encode emotions: {e}")
+            # Use a default encoding if emotion encoding fails
+            emotion_default = np.zeros(len(df)).reshape(-1, 1)
+            features.append(emotion_default)
         
         # Stack features
-        X = np.column_stack(features)
+        X = np.hstack(features)
         
         # Target variable
         y = df['engagement_category'].values
