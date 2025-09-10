@@ -117,6 +117,36 @@ git clone https://github.com/gautamk1512/classroom-student-identification-and-en
 
 ## 🧠 AI Models
 
+### 🚀 Model Training & Enhancement
+
+#### Enhanced Model Training Script
+Use the included `train_model.py` script to improve model accuracy with your collected data:
+
+```bash
+python train_model.py
+```
+
+**Features:**
+- **Multiple Algorithms**: Random Forest, Gradient Boosting, Neural Networks
+- **Hyperparameter Tuning**: Automated grid search for optimal parameters
+- **Feature Engineering**: Enhanced features with polynomial and interaction terms
+- **Advanced Techniques**: Batch normalization, dropout, early stopping
+- **Model Comparison**: Automatic selection of best performing model
+- **Visualization**: Confusion matrix and performance metrics
+
+#### Training Requirements
+1. **Data Collection**: Run the system to collect engagement data
+2. **Minimum Samples**: At least 100+ records for effective training
+3. **Balanced Classes**: Ensure diverse engagement categories
+4. **Quality Data**: Clear faces, varied lighting conditions
+
+#### Model Enhancement Tips
+- 📊 **Collect More Data**: Longer sessions = better accuracy
+- 🎭 **Diverse Expressions**: Register students with multiple emotions
+- 💡 **Varied Conditions**: Different lighting and angles
+- ⚖️ **Balanced Dataset**: Equal samples across engagement levels
+- 🔄 **Regular Retraining**: Update models with new data
+
 ### Face Recognition
 - **Model**: VGG-Face via DeepFace library
 - **Accuracy**: High accuracy for face identification
