@@ -159,6 +159,12 @@ CREATE TABLE engagement_sessions (
 
 ## 📈 Kaggle Dataset Format
 
+### 📊 Related Kaggle Dataset
+**Student Engagement Dataset**: [https://www.kaggle.com/datasets/joyee19/studentengagement](https://www.kaggle.com/datasets/joyee19/studentengagement)
+
+This system generates datasets compatible with existing Kaggle student engagement datasets and can be used for machine learning competitions and research.
+
+### 📋 Exported CSV Columns
 The exported CSV contains the following columns:
 - `timestamp`: When the data was recorded
 - `student_id`: Unique identifier for the student
